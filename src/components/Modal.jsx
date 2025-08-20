@@ -19,7 +19,7 @@ function Modal({ isOpen, onClose, title, children, footer }) {
                       animate-[scaleIn_.18s_ease-out] overflow-hidden"
       >
         {/* Header */}
-        <div className="px-6 py-4 bg-gradient-to-r from-indigo-500 to-violet-500 text-white">
+        <div className="px-6 py-4 bg-gradient-to-r from-blue-500 to-teal-500 text-white">
           <h3 className="text-lg font-semibold">{title}</h3>
         </div>
 
