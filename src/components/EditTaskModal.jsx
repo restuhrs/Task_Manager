@@ -51,7 +51,7 @@ function EditTaskModal({ isOpen, onClose, initialTask, onSave }) {
       <button
         form="edit-task-form"
         type="submit"
-        className="px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700"
+        className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-teal-500 text-white hover:bg-blue-700"
       >
         Save Changes
       </button>
@@ -70,7 +70,7 @@ function EditTaskModal({ isOpen, onClose, initialTask, onSave }) {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             autoFocus
           />
         </div>
@@ -88,7 +88,7 @@ function EditTaskModal({ isOpen, onClose, initialTask, onSave }) {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
         </div>
@@ -106,14 +106,14 @@ function EditTaskModal({ isOpen, onClose, initialTask, onSave }) {
               type="time"
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
-              className="flex-1 rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="flex-1 rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <span className="mx-2 text-gray-500">to</span>
             <input
               type="time"
               value={endTime}
               onChange={(e) => setEndTime(e.target.value)}
-              className="flex-1 rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="flex-1 rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
         </div>
@@ -123,7 +123,7 @@ function EditTaskModal({ isOpen, onClose, initialTask, onSave }) {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Status
           </label>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             {STATUS_OPTIONS.map((opt) => {
               const Icon = opt.icon;
               const active = status === opt.value;
@@ -134,11 +134,11 @@ function EditTaskModal({ isOpen, onClose, initialTask, onSave }) {
                   onClick={() => setStatus(opt.value)}
                   className={`flex items-center justify-center gap-2 rounded-xl border px-3 py-2 text-sm ${
                     active
-                      ? "border-indigo-600 bg-indigo-50 text-indigo-700"
+                      ? "border-blue-600 bg-blue-50 text-blue-700"
                       : "border-gray-300 hover:bg-gray-50"
                   }`}
                 >
-                  <Icon size={18} /> {opt.label}
+                  <Icon size={20} /> {opt.label}
                 </button>
               );
             })}
@@ -153,7 +153,8 @@ function EditTaskModal({ isOpen, onClose, initialTask, onSave }) {
           <textarea
             value={note}
             onChange={(e) => setNote(e.target.value)}
-            className="w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Add additional details here..."
           />
         </div>
       </form>
