@@ -42,11 +42,17 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-        <h1 className="text-3xl font-bold text-gray-800">To Do List</h1>
+      <header className="bg-blue-100 shadow-lg rounded-2xl p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        {/* Title */}
+        <div>
+          <h1 className="text-3xl font-bold text-blue-600">Task Manager</h1>
+          <p className="text-blue-500 mt-1">Manage your tasks efficiently</p>
+        </div>
+
+        {/* Button Add Task */}
         <button
           onClick={() => setShowModal(true)}
-          className="flex items-center gap-2 px-5 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:scale-105 transform transition"
+          className="flex items-center gap-2 px-5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white hover:scale-105 transform transition shadow-md"
         >
           <CirclePlus size={20} /> Add Task
         </button>
@@ -78,6 +84,11 @@ function App() {
         pauseOnHover
         style={{ zIndex: 9999 }}
       />
+
+      {/* Footer */}
+      <footer className="mt-6 py-4 text-center text-gray-500 text-sm border-t border-gray-300 relative">
+        © {new Date().getFullYear()} Task Manager by Restu. All rights reserved.
+      </footer>
     </div>
   );
 }
