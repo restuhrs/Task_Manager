@@ -14,7 +14,7 @@ function Dashboard({ tasks }) {
       title: "Total Tasks",
       value: tasks.length,
       icon: ClipboardList,
-      gradient: "from-indigo-500 to-purple-500",
+      gradient: "from-orange-400 to-yellow-400",
     },
     {
       title: "Completed",
@@ -22,18 +22,18 @@ function Dashboard({ tasks }) {
       icon: CheckCircle2,
       gradient: "from-green-400 to-teal-500",
     },
-    {
-      title: "In Progress",
-      value: inProgressCount,
-      icon: Loader,
-      gradient: "from-yellow-400 to-orange-400",
-    },
-    {
-      title: "Not Started",
-      value: notStartedCount,
-      icon: PlayCircle,
-      gradient: "from-gray-400 to-gray-600",
-    },
+    // {
+    //   title: "In Progress",
+    //   value: inProgressCount,
+    //   icon: Loader,
+    //   gradient: "from-yellow-400 to-orange-400",
+    // },
+    // {
+    //   title: "Not Started",
+    //   value: notStartedCount,
+    //   icon: PlayCircle,
+    //   gradient: "from-gray-400 to-gray-600",
+    // },
   ];
 
   return (
@@ -49,7 +49,7 @@ function Dashboard({ tasks }) {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 gap-6">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
