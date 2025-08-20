@@ -1,4 +1,4 @@
-import { ClipboardList, CheckCircle2, Loader, PlayCircle } from "lucide-react";
+import { ClipboardList, CheckCircle2 } from "lucide-react";
 
 function Dashboard({ tasks }) {
   const completedCount = tasks.filter((t) => t.status === "Done").length;
@@ -22,18 +22,6 @@ function Dashboard({ tasks }) {
       icon: CheckCircle2,
       gradient: "from-green-400 to-teal-500",
     },
-    // {
-    //   title: "In Progress",
-    //   value: inProgressCount,
-    //   icon: Loader,
-    //   gradient: "from-yellow-400 to-orange-400",
-    // },
-    // {
-    //   title: "Not Started",
-    //   value: notStartedCount,
-    //   icon: PlayCircle,
-    //   gradient: "from-gray-400 to-gray-600",
-    // },
   ];
 
   return (
