@@ -1,9 +1,13 @@
 import TaskItem from "./TaskItem";
-import { ClipboardList } from "lucide-react";
+import TaskListHeader from "./TaskListHeader";
 
 function TaskList({ tasks, onUpdate, onDelete }) {
   return (
     <div className="space-y-4">
+      {/* Header dengan jumlah task */}
+      <TaskListHeader tasks={tasks} />
+
+      {/* Daftar task */}
       {tasks.length === 0 ? (
         <div className="text-center py-10 text-gray-400 flex flex-col items-center gap-2">
           <ClipboardList size={48} className="animate-bounce text-gray-400" />
