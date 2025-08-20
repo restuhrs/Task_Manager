@@ -1,5 +1,6 @@
 import TaskItem from "./TaskItem";
 import TaskListHeader from "./TaskListHeader";
+import { ClipboardList } from "lucide-react";
 
 function TaskList({ tasks, onUpdate, onDelete }) {
   return (
