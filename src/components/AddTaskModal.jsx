@@ -15,14 +15,12 @@ function AddTaskModal({ isOpen, onClose, onAdd }) {
     e.preventDefault();
     if (!title || !date || !startTime) return;
 
-    // Gabungkan date + time menjadi satu string ISO
     const startDateTime = `${date}T${startTime}`;
     const endDateTime = endTime ? `${date}T${endTime}` : null;
 
     onAdd({ title, startDateTime, endDateTime, status, note });
     onClose();
 
-    // Reset form
     setTitle("");
     setDate("");
     setStartTime("");
@@ -53,7 +51,6 @@ function AddTaskModal({ isOpen, onClose, onAdd }) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Add Task" footer={Footer}>
       <form id="add-task-form" onSubmit={handleSubmit} className="space-y-4">
-        {/* Title */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Title
@@ -68,7 +65,6 @@ function AddTaskModal({ isOpen, onClose, onAdd }) {
           />
         </div>
 
-        {/* Date */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Date
@@ -86,28 +82,21 @@ function AddTaskModal({ isOpen, onClose, onAdd }) {
           </div>
         </div>
 
-        {/* Start & End Time */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Time
           </label>
           <div className="flex items-center gap-2">
-            {/* Icon di kiri */}
             <div className="flex items-center px-3 py-2 rounded-xl border bg-gray-50">
               <Clock size={18} className="text-gray-500" />
             </div>
-
-            {/* Start Time */}
             <input
               type="time"
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
               className="flex-1 rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
-
             <span className="mx-2 text-gray-500">to</span>
-
-            {/* End Time */}
             <input
               type="time"
               value={endTime}
@@ -117,7 +106,6 @@ function AddTaskModal({ isOpen, onClose, onAdd }) {
           </div>
         </div>
 
-        {/* Status */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Status
@@ -128,8 +116,8 @@ function AddTaskModal({ isOpen, onClose, onAdd }) {
               const active = status === opt.value;
               return (
                 <button
-                  type="button"
                   key={opt.value}
+                  type="button"
                   onClick={() => setStatus(opt.value)}
                   className={`flex items-center justify-center gap-2 rounded-xl border px-3 py-2 text-sm ${
                     active
@@ -137,15 +125,13 @@ function AddTaskModal({ isOpen, onClose, onAdd }) {
                       : "border-gray-300 hover:bg-gray-50"
                   }`}
                 >
-                  <Icon size={18} />
-                  {opt.label}
+                  <Icon size={18} /> {opt.label}
                 </button>
               );
             })}
           </div>
         </div>
 
-        {/* Note */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Note

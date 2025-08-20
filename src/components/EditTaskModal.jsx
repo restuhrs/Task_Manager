@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "./Modal";
 import { CalendarClock, Clock } from "lucide-react";
 import { STATUS_OPTIONS } from "../constants/statusOptions";
@@ -11,22 +11,22 @@ function EditTaskModal({ isOpen, onClose, initialTask, onSave }) {
   const [status, setStatus] = useState("Not Started");
   const [note, setNote] = useState("");
 
+  // Set initial values saat modal dibuka
   useEffect(() => {
     if (initialTask) {
-      setTitle(initialTask.title ?? "");
-      if (initialTask.startDateTime) {
-        const [d, t] = initialTask.startDateTime.split("T");
-        setDate(d);
-        setStartTime(t);
-      }
-      if (initialTask.endDateTime) {
-        const [, t] = initialTask.endDateTime.split("T");
-        setEndTime(t);
-      }
-      setStatus(initialTask.status ?? "Not Started");
-      setNote(initialTask.note ?? "");
+      const start = new Date(initialTask.startDateTime);
+      const end = initialTask.endDateTime
+        ? new Date(initialTask.endDateTime)
+        : null;
+
+      setTitle(initialTask.title || "");
+      setDate(start.toISOString().slice(0, 10));
+      setStartTime(start.toTimeString().slice(0, 5));
+      setEndTime(end ? end.toTimeString().slice(0, 5) : "");
+      setStatus(initialTask.status || "Not Started");
+      setNote(initialTask.note || "");
     }
-  }, [initialTask, isOpen]);
+  }, [initialTask]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -51,20 +51,15 @@ function EditTaskModal({ isOpen, onClose, initialTask, onSave }) {
       <button
         form="edit-task-form"
         type="submit"
-        className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:scale-105 transition-transform"
+        className="px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700"
       >
-        Save changes
+        Save Changes
       </button>
     </div>
   );
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title="Update Task"
-      footer={Footer}
-    >
+    <Modal isOpen={isOpen} onClose={onClose} title="Edit Task" footer={Footer}>
       <form id="edit-task-form" onSubmit={handleSubmit} className="space-y-4">
         {/* Title */}
         <div>
@@ -76,7 +71,6 @@ function EditTaskModal({ isOpen, onClose, initialTask, onSave }) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            placeholder="e.g. Daily Meeting"
             autoFocus
           />
         </div>
@@ -99,28 +93,22 @@ function EditTaskModal({ isOpen, onClose, initialTask, onSave }) {
           </div>
         </div>
 
-        {/* Start & End Time */}
+        {/* Time */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Time
           </label>
           <div className="flex items-center gap-2">
-            {/* Icon di kiri */}
             <div className="flex items-center px-3 py-2 rounded-xl border bg-gray-50">
               <Clock size={18} className="text-gray-500" />
             </div>
-
-            {/* Start Time */}
             <input
               type="time"
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
               className="flex-1 rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
-
             <span className="mx-2 text-gray-500">to</span>
-
-            {/* End Time */}
             <input
               type="time"
               value={endTime}
@@ -166,7 +154,6 @@ function EditTaskModal({ isOpen, onClose, initialTask, onSave }) {
             value={note}
             onChange={(e) => setNote(e.target.value)}
             className="w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            placeholder="Update notes here..."
           />
         </div>
       </form>

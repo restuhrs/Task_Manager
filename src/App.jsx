@@ -3,9 +3,10 @@ import { CirclePlus } from "lucide-react";
 import Dashboard from "./components/Dashboard";
 import TaskList from "./components/TaskList";
 import AddTaskModal from "./components/AddTaskModal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  // Ambil data awal dari localStorage
   const [tasks, setTasks] = useState(() => {
     const saved = localStorage.getItem("tasks");
     return saved ? JSON.parse(saved) : [];
@@ -13,7 +14,6 @@ function App() {
 
   const [showModal, setShowModal] = useState(false);
 
-  // Simpan tasks ke localStorage setiap kali berubah
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
@@ -21,6 +21,7 @@ function App() {
   // CREATE
   const addTask = (task) => {
     setTasks([...tasks, { ...task, id: Date.now(), note: task.note || "" }]);
+    toast.success("Task berhasil ditambahkan!");
   };
 
   // UPDATE
@@ -30,16 +31,17 @@ function App() {
         task.id === id ? { ...updatedTask, note: updatedTask.note || "" } : task
       )
     );
+    toast.info("Task berhasil diupdate!");
   };
 
   // DELETE
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
+    toast.error("Task berhasil dihapus!");
   };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      {/* Header */}
       <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <h1 className="text-3xl font-bold text-gray-800">To Do List</h1>
         <button
@@ -50,17 +52,31 @@ function App() {
         </button>
       </header>
 
-      {/* Statistik */}
+      {/* Statistik (optional) */}
       <Dashboard tasks={tasks} />
 
       {/* Daftar Task */}
       <TaskList tasks={tasks} onUpdate={updateTask} onDelete={deleteTask} />
 
-      {/* Modal */}
+      {/* Modal Tambah Task */}
       <AddTaskModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onAdd={addTask}
+      />
+
+      {/* Toast */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        style={{ zIndex: 9999 }}
       />
     </div>
   );

@@ -31,7 +31,6 @@ function TaskItem({ task, onUpdate, onDelete }) {
     onUpdate(task.id, { ...task, status: next, completed });
   };
 
-  // Format tanggal dan waktu
   const formatDateTime = (start, end) => {
     if (!start) return "-";
     const startDate = new Date(start);
@@ -57,7 +56,6 @@ function TaskItem({ task, onUpdate, onDelete }) {
   return (
     <>
       <div className="bg-white p-4 rounded-2xl shadow-md flex flex-col sm:flex-row justify-between items-start sm:items-center hover:shadow-xl transition-shadow duration-300 gap-4">
-        {/* Konten Task */}
         <div className="flex-1">
           <p className="font-semibold text-xl text-gray-800 break-words mb-2">
             {task.title}
@@ -72,7 +70,6 @@ function TaskItem({ task, onUpdate, onDelete }) {
           )}
         </div>
 
-        {/* Status & Actions */}
         <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3">
           <button
             onClick={toggleStatus}
@@ -81,8 +78,7 @@ function TaskItem({ task, onUpdate, onDelete }) {
             } hover:scale-105 transform transition`}
             title="Toggle status"
           >
-            <Icon size={16} />
-            {task.status}
+            <Icon size={16} /> {task.status}
           </button>
 
           <button
