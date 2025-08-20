@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Edit2, Trash2, Loader, CheckCircle2, PlayCircle } from "lucide-react";
+import { Edit, Trash2, Loader, CheckCircle2, PlayCircle } from "lucide-react";
 import EditTaskModal from "./EditTaskModal";
 
 const statusStyle = {
@@ -86,7 +86,7 @@ function TaskItem({ task, onUpdate, onDelete }) {
             className="p-2 rounded-lg hover:bg-gray-100"
             title="Edit"
           >
-            <Edit2 size={18} className="text-blue-600" />
+            <Edit size={18} className="text-blue-600" />
           </button>
 
           <button
