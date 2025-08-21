@@ -2,12 +2,6 @@ import { ClipboardList, CheckCircle2 } from "lucide-react";
 
 function Dashboard({ tasks }) {
   const completedCount = tasks.filter((t) => t.status === "Done").length;
-  const inProgressCount = tasks.filter(
-    (t) => t.status === "In Progress"
-  ).length;
-  const notStartedCount = tasks.filter(
-    (t) => t.status === "Not Started"
-  ).length;
 
   const stats = [
     {
