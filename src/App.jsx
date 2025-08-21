@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { CirclePlus } from "lucide-react";
-import Dashboard from "./components/Dashboard";
-import TaskList from "./components/TaskList";
-import AddTaskModal from "./components/AddTaskModal";
+import Dashboard from "./pages/Dashboard";
+import TaskList from "./features/TaskList";
+import AddTaskModal from "./features/AddTaskModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
