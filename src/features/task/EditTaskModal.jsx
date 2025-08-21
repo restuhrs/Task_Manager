@@ -1,15 +1,32 @@
-import { useState } from "react";
-import Modal from "../components/Modal";
+import { useState, useEffect } from "react";
+import Modal from "../../components/Modal";
 import { CalendarClock, Clock } from "lucide-react";
-import { STATUS_OPTIONS } from "../constants/statusOptions";
+import { STATUS_OPTIONS } from "../../constants/statusOptions";
 
-function AddTaskModal({ isOpen, onClose, onAdd }) {
+function EditTaskModal({ isOpen, onClose, initialTask, onSave }) {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [status, setStatus] = useState("Not Started");
   const [note, setNote] = useState("");
+
+  // Set initial values saat modal dibuka
+  useEffect(() => {
+    if (initialTask) {
+      const start = new Date(initialTask.startDateTime);
+      const end = initialTask.endDateTime
+        ? new Date(initialTask.endDateTime)
+        : null;
+
+      setTitle(initialTask.title || "");
+      setDate(start.toISOString().slice(0, 10));
+      setStartTime(start.toTimeString().slice(0, 5));
+      setEndTime(end ? end.toTimeString().slice(0, 5) : "");
+      setStatus(initialTask.status || "Not Started");
+      setNote(initialTask.note || "");
+    }
+  }, [initialTask]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,15 +35,8 @@ function AddTaskModal({ isOpen, onClose, onAdd }) {
     const startDateTime = `${date}T${startTime}`;
     const endDateTime = endTime ? `${date}T${endTime}` : null;
 
-    onAdd({ title, startDateTime, endDateTime, status, note });
+    onSave({ ...initialTask, title, startDateTime, endDateTime, status, note });
     onClose();
-
-    setTitle("");
-    setDate("");
-    setStartTime("");
-    setEndTime("");
-    setStatus("Not Started");
-    setNote("");
   };
 
   const Footer = (
@@ -39,18 +49,19 @@ function AddTaskModal({ isOpen, onClose, onAdd }) {
         Cancel
       </button>
       <button
-        form="add-task-form"
+        form="edit-task-form"
         type="submit"
         className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-teal-500 text-white hover:bg-blue-700"
       >
-        Add Task
+        Save Changes
       </button>
     </div>
   );
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Add Task" footer={Footer}>
-      <form id="add-task-form" onSubmit={handleSubmit} className="space-y-4">
+    <Modal isOpen={isOpen} onClose={onClose} title="Edit Task" footer={Footer}>
+      <form id="edit-task-form" onSubmit={handleSubmit} className="space-y-4">
+        {/* Title */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Title
@@ -60,11 +71,11 @@ function AddTaskModal({ isOpen, onClose, onAdd }) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="ex. Daily Meeting"
             autoFocus
           />
         </div>
 
+        {/* Date */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Date
@@ -82,6 +93,7 @@ function AddTaskModal({ isOpen, onClose, onAdd }) {
           </div>
         </div>
 
+        {/* Time */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Time
@@ -106,6 +118,7 @@ function AddTaskModal({ isOpen, onClose, onAdd }) {
           </div>
         </div>
 
+        {/* Status */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Status
@@ -132,6 +145,7 @@ function AddTaskModal({ isOpen, onClose, onAdd }) {
           </div>
         </div>
 
+        {/* Note */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Note
@@ -148,4 +162,4 @@ function AddTaskModal({ isOpen, onClose, onAdd }) {
   );
 }
 
-export default AddTaskModal;
+export default EditTaskModal;

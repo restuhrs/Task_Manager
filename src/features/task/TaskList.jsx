@@ -1,5 +1,5 @@
-import TaskItem from "../components/TaskItem";
-import TaskListHeader from "../components/TaskListHeader";
+import TaskItem from "../../components/TaskItem";
+import TaskListHeader from "../../components/TaskListHeader";
 import { ClipboardList } from "lucide-react";
 
 function TaskList({ tasks, onUpdate, onDelete }) {
