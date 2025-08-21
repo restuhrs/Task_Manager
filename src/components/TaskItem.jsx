@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Edit, Trash2, Loader, CheckCircle2, PlayCircle } from "lucide-react";
-import EditTaskModal from "../features/EditTaskModal";
+import EditTaskModal from "../features/task/EditTaskModal";
 
 const statusStyle = {
   "Not Started": "bg-gray-100 text-gray-700",

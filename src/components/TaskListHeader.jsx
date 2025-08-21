@@ -5,8 +5,8 @@ function TaskListHeader({ tasks }) {
     <div className="mb-6 flex items-center justify-between bg-white p-4 rounded-2xl shadow-md">
       {/* Teks dan icon */}
       <div className="flex items-center gap-2">
-        <ClipboardList size={20} className="text-blue-500" />
-        <p className="text-blue-700 font-semibold text-base sm:text-lg">
+        <ClipboardList size={20} className="text-gray-500" />
+        <p className="text-gray-500 font-semibold text-base sm:text-lg">
           Your Tasks
         </p>
       </div>
