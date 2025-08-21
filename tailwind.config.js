@@ -6,6 +6,13 @@ export default {
       fontFamily: {
         sans: ["Poppins", "ui-sans-serif", "system-ui"],
       },
+      zIndex: {
+        60: "60",
+        70: "70",
+        80: "80",
+        90: "90",
+        100: "100",
+      },
     },
   },
   plugins: [],
