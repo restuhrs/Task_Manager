@@ -11,7 +11,23 @@ export default function PomodoroTimer() {
   const [timeLeft, setTimeLeft] = useState(focusTime);
   const [isRunning, setIsRunning] = useState(false);
   const [sessionType, setSessionType] = useState("focus");
-  const [sessionsCompleted, setSessionsCompleted] = useState(0);
+  const [sessionsCompleted, setSessionsCompleted] = useState(() => {
+    const savedData = JSON.parse(localStorage.getItem("pomodoroSessions"));
+    const today = new Date().toDateString();
+
+    if (savedData && savedData.date === today) {
+      return savedData.count;
+    }
+    return 0;
+  });
+
+  useEffect(() => {
+    const today = new Date().toDateString();
+    localStorage.setItem(
+      "pomodoroSessions",
+      JSON.stringify({ date: today, count: sessionsCompleted })
+    );
+  }, [sessionsCompleted]);
 
   const audioRef = useRef(new Audio(soundFile));
   const endTimeRef = useRef(null);
