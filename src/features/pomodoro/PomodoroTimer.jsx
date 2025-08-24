@@ -8,29 +8,62 @@ export default function PomodoroTimer() {
   const [focusTime, setFocusTime] = useState(25 * 60);
   const [breakTime, setBreakTime] = useState(5 * 60);
   const [longBreakTime, setLongBreakTime] = useState(15 * 60);
-  const [timeLeft, setTimeLeft] = useState(focusTime);
-  const [isRunning, setIsRunning] = useState(false);
-  const [sessionType, setSessionType] = useState("focus");
-  const [sessionsCompleted, setSessionsCompleted] = useState(() => {
-    const savedData = JSON.parse(localStorage.getItem("pomodoroSessions"));
-    const today = new Date().toDateString();
 
-    if (savedData && savedData.date === today) {
-      return savedData.count;
-    }
+  const now = Date.now();
+  const savedState = JSON.parse(localStorage.getItem("pomodoroState")) || {};
+  const savedSessions =
+    JSON.parse(localStorage.getItem("pomodoroSessions")) || {};
+
+  /* daily completed session */
+  const today = new Date().toDateString();
+  const [sessionsCompleted, setSessionsCompleted] = useState(() => {
+    if (savedSessions.date === today) return savedSessions.count;
     return 0;
   });
 
+  /* timer state */
+  const [sessionType, setSessionType] = useState(
+    savedState.sessionType ?? "focus"
+  );
+  const [isRunning, setIsRunning] = useState(savedState.isRunning ?? false);
+  const [timeLeft, setTimeLeft] = useState(() => {
+    if (savedState.isRunning && savedState.endTime) {
+      const remaining = Math.round((savedState.endTime - now) / 1000);
+      return remaining > 0 ? remaining : 0;
+    }
+    return savedState.timeLeft ?? focusTime;
+  });
+
+  const audioRef = useRef(new Audio(soundFile));
+  const endTimeRef = useRef(savedState.endTime ?? null);
+
   useEffect(() => {
-    const today = new Date().toDateString();
+    localStorage.setItem(
+      "pomodoroState",
+      JSON.stringify({
+        timeLeft,
+        sessionType,
+        isRunning,
+        endTime: endTimeRef.current,
+      })
+    );
+  }, [timeLeft, sessionType, isRunning]);
+
+  useEffect(() => {
     localStorage.setItem(
       "pomodoroSessions",
       JSON.stringify({ date: today, count: sessionsCompleted })
     );
-  }, [sessionsCompleted]);
+  }, [sessionsCompleted, today]);
 
-  const audioRef = useRef(new Audio(soundFile));
-  const endTimeRef = useRef(null);
+  const showToast = (type, message) => {
+    localStorage.setItem(
+      "pomodoroToast",
+      JSON.stringify({ type, message, time: Date.now() })
+    );
+    if (type === "success") toast.success(message);
+    else if (type === "info") toast.info(message);
+  };
 
   useEffect(() => {
     let timer;
@@ -44,7 +77,8 @@ export default function PomodoroTimer() {
           setTimeLeft(remaining);
         }
       }, 1000);
-    } else if (timeLeft === 0) {
+    } else if (timeLeft === 0 && !isRunning) {
+      /* end session */
       audioRef.current.play();
 
       if (sessionType === "focus") {
@@ -58,15 +92,19 @@ export default function PomodoroTimer() {
         } else {
           setSessionType("break");
           setTimeLeft(breakTime);
+          toast.success("Focus session finished! Time for a break 🎉");
         }
       } else if (sessionType === "break") {
         setSessionType("focus");
         setTimeLeft(focusTime);
+        toast.info("Break finished! Back to focus 💪");
       } else if (sessionType === "longBreak") {
         setSessionType("focus");
         setTimeLeft(focusTime);
+        toast.info("Long break finished! Let's get back on track 🚀");
       }
     }
+
     return () => clearInterval(timer);
   }, [
     isRunning,
@@ -78,23 +116,13 @@ export default function PomodoroTimer() {
     sessionsCompleted,
   ]);
 
-  useEffect(() => {
-    if (timeLeft === 0 && !isRunning) {
-      if (sessionType === "focus") {
-        toast.success("Focus session finished! Time for a break 🎉");
-      } else if (sessionType === "break") {
-        toast.info("Break session finished! Back to focus 💪");
-      } else if (sessionType === "longBreak") {
-        toast.info("Long break finished! Let's get back on track 🚀");
-      }
-    }
-  }, [timeLeft, isRunning, sessionType]);
-
   const handleStart = () => {
     endTimeRef.current = Date.now() + timeLeft * 1000;
     setIsRunning(true);
   };
+
   const handlePause = () => setIsRunning(false);
+
   const handleReset = () => {
     setIsRunning(false);
     setSessionType("focus");
@@ -113,16 +141,13 @@ export default function PomodoroTimer() {
   const progress = getProgress(totalTime, timeLeft);
 
   return (
-    <div className="p-4 bg-gray-50 rounded-2xl text-center w-[90%] sm:w-full max-w-md sm:max-w-lg max-w-md mx-auto flex flex-col items-center gap-4">
-      {/* Sesi selesai */}
+    <div className="p-4 bg-gray-50 rounded-2xl text-center w-[90%] sm:w-full max-w-md sm:max-w-lg mx-auto flex flex-col items-center gap-4">
       <p className="text-sm text-gray-600 font-medium">
         Sessions completed: {sessionsCompleted}
       </p>
 
-      {/* Timer */}
       <p className="text-5xl font-mono font-bold">{formatTime(timeLeft)}</p>
 
-      {/* Progress Bar */}
       <div className="w-full bg-gray-200 rounded-full h-5 mt-2 overflow-hidden">
         <div
           className="h-5 rounded-full transition-all duration-500"
@@ -133,7 +158,6 @@ export default function PomodoroTimer() {
         ></div>
       </div>
 
-      {/* Kontrol */}
       <PomodoroControls
         onStart={handleStart}
         onPause={handlePause}
@@ -142,7 +166,6 @@ export default function PomodoroTimer() {
         sessionType={sessionType}
       />
 
-      {/* Custom Timer */}
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 max-w-xl mx-auto items-center justify-center gap-3">
         <div className="flex items-center gap-2">
           <input
