@@ -34,14 +34,13 @@ function TaskList({ tasks, onUpdate, onDelete, setTasks }) {
           {/* fragment lebih dari 2 element */}
           <div className="flex items-center gap-2 text-xs text-gray-500 italic mb-2">
             <GripVertical size={16} className="text-gray-500" />
-            {/* Wrapper dengan relative agar tooltip bisa absolute */}
             <div className="relative group flex items-center">
               <span className="cursor-pointer">
-                Click anywhere on a task to drag & drop
+                Hold on a task to drag & drop
               </span>
               {/* Tooltip */}
               <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block bg-gray-800 text-white text-[10px] px-2 py-1 rounded shadow-lg whitespace-nowrap z-10">
-                You can drag from anywhere on task
+                Hold anywhere on a task to drag & drop
               </div>
             </div>
           </div>
