@@ -25,8 +25,8 @@ function App() {
 
   // CREATE
   const addTask = (task) => {
-    setTasks([...tasks, { ...task, id: Date.now(), note: task.note || "" }]);
-    toast.success("Task berhasil ditambahkan!");
+    setTasks([{ ...task, id: Date.now(), note: task.note || "" }, ...tasks]);
+    toast.success("Task added successfully!");
   };
 
   // UPDATE
@@ -36,13 +36,13 @@ function App() {
         task.id === id ? { ...updatedTask, note: updatedTask.note || "" } : task
       )
     );
-    toast.info("Task berhasil diupdate!");
+    toast.info("Task updated successfully!");
   };
 
   // DELETE
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
-    toast.error("Task berhasil dihapus!");
+    toast.error("Task deleted!");
   };
 
   return (
