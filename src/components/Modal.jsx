@@ -1,8 +1,10 @@
+import { createPortal } from "react-dom";
+
 /* Reusable Modal with backdrop blur & scale-in animation */
 function Modal({ isOpen, onClose, title, children, footer }) {
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div
       className="fixed inset-0 z-[9999] flex items-center justify-center"
       aria-modal="true"
@@ -37,7 +39,8 @@ function Modal({ isOpen, onClose, title, children, footer }) {
           to { transform: scale(1); opacity: 1; }
         }
       `}</style>
-    </div>
+    </div>,
+    document.body
   );
 }
 

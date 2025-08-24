@@ -35,12 +35,10 @@ function TaskList({ tasks, onUpdate, onDelete, setTasks }) {
           <div className="flex items-center gap-2 text-xs text-gray-500 italic mb-2">
             <GripVertical size={16} className="text-gray-500" />
             <div className="relative group flex items-center">
-              <span className="cursor-pointer">
-                Hold on a task to drag & drop
-              </span>
+              <span className="cursor-pointer">Hold icon to drag & drop</span>
               {/* Tooltip */}
               <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block bg-gray-800 text-white text-[10px] px-2 py-1 rounded shadow-lg whitespace-nowrap z-10">
-                Hold anywhere on a task to drag & drop
+                Hold icon on a task to drag & drop
               </div>
             </div>
           </div>
@@ -62,7 +60,6 @@ function TaskList({ tasks, onUpdate, onDelete, setTasks }) {
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          {...provided.dragHandleProps}
                           className={`transition transform ${
                             snapshot.isDragging ? "scale-105" : ""
                           }`}
@@ -71,6 +68,7 @@ function TaskList({ tasks, onUpdate, onDelete, setTasks }) {
                             task={task}
                             onUpdate={onUpdate}
                             onDelete={onDelete}
+                            dragHandleProps={provided.dragHandleProps}
                           />
                         </div>
                       )}

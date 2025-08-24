@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Edit, Trash2, Loader, CheckCircle2, PlayCircle } from "lucide-react";
+import {
+  Edit,
+  Trash2,
+  Loader,
+  CheckCircle2,
+  PlayCircle,
+  GripVertical,
+} from "lucide-react";
 import EditTaskModal from "../features/task/EditTaskModal";
 
 const statusStyle = {
@@ -14,7 +21,7 @@ const statusIcon = {
   Done: CheckCircle2,
 };
 
-function TaskItem({ task, onUpdate, onDelete }) {
+function TaskItem({ task, onUpdate, onDelete, dragHandleProps }) {
   const [openEdit, setOpenEdit] = useState(false);
   const Icon = statusIcon[task.status] ?? PlayCircle;
 
@@ -56,6 +63,18 @@ function TaskItem({ task, onUpdate, onDelete }) {
   return (
     <>
       <div className="bg-white p-4 rounded-2xl shadow-md flex flex-col sm:flex-row justify-between items-start sm:items-center hover:shadow-xl transition-shadow duration-300 gap-4">
+        {/* Drag handle */}
+        <div
+          {...dragHandleProps}
+          className="flex items-center mr-3 cursor-grab"
+        >
+          <GripVertical
+            size={20}
+            className="text-gray-400 hover:text-gray-600"
+          />
+        </div>
+
+        {/* Konten utama task */}
         <div className="flex-1">
           <p className="font-semibold text-xl text-gray-800 break-words mb-2">
             {task.title}
@@ -70,13 +89,13 @@ function TaskItem({ task, onUpdate, onDelete }) {
           )}
         </div>
 
+        {/* Action buttons */}
         <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3">
           <button
             onClick={toggleStatus}
             className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm ${
               statusStyle[task.status]
             } hover:scale-105 transform transition`}
-            title="Toggle status"
           >
             <Icon size={16} /> {task.status}
           </button>
@@ -84,7 +103,6 @@ function TaskItem({ task, onUpdate, onDelete }) {
           <button
             onClick={() => setOpenEdit(true)}
             className="p-2 rounded-lg hover:bg-gray-100"
-            title="Edit"
           >
             <Edit size={18} className="text-blue-600" />
           </button>
@@ -92,7 +110,6 @@ function TaskItem({ task, onUpdate, onDelete }) {
           <button
             onClick={() => onDelete(task.id)}
             className="p-2 rounded-lg hover:bg-gray-100"
-            title="Delete"
           >
             <Trash2 size={18} className="text-red-600" />
           </button>
