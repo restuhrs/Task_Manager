@@ -82,6 +82,7 @@ function App() {
                   tasks={tasks}
                   onUpdate={updateTask}
                   onDelete={deleteTask}
+                  setTasks={setTasks}
                 />
               </>
             }
