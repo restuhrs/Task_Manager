@@ -8,7 +8,7 @@ export default function PomodoroPage() {
       </h1>
 
       {/* Card untuk timer */}
-      <div className="w-full max-w-md p-6 sm:p-8 bg-white rounded-3xl shadow-2xl flex flex-col items-center">
+      <div className="w-full max-w-lg p-6 sm:p-8 bg-white rounded-3xl shadow-2xl flex flex-col items-center">
         <PomodoroTimer />
       </div>
 

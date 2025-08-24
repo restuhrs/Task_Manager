@@ -7,11 +7,28 @@ export default function PomodoroControls({
   isRunning,
   sessionType,
 }) {
+  const sessionLabels = {
+    focus: { text: "Focus Mode", bg: "bg-red-100", textColor: "text-red-700" },
+    break: {
+      text: "Break Session",
+      bg: "bg-green-100",
+      textColor: "text-green-700",
+    },
+    longBreak: {
+      text: "Long Break",
+      bg: "bg-blue-100",
+      textColor: "text-blue-700",
+    },
+  };
+
   return (
     <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-      {/* Label sesi */}
-      <span className="font-semibold text-gray-700 text-lg">
-        {sessionType === "focus" ? "Focus" : "Break"}
+      {/* Badge sesi */}
+      <span
+        className={`px-3 py-1 rounded-full font-semibold text-sm shadow-sm 
+          ${sessionLabels[sessionType].bg} ${sessionLabels[sessionType].textColor}`}
+      >
+        {sessionLabels[sessionType].text}
       </span>
 
       {/* Tombol kontrol */}
