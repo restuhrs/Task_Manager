@@ -63,30 +63,28 @@ function TaskItem({ task, onUpdate, onDelete, dragHandleProps }) {
   return (
     <>
       <div className="bg-white p-4 rounded-2xl shadow-md flex flex-col sm:flex-row justify-between items-start sm:items-center hover:shadow-xl transition-shadow duration-300 gap-4">
-        {/* Drag handle */}
-        <div
-          {...dragHandleProps}
-          className="flex items-center mr-3 cursor-grab"
-        >
-          <GripVertical
-            size={20}
-            className="text-gray-400 hover:text-gray-600"
-          />
-        </div>
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          {/* Drag handle */}
+          <div {...dragHandleProps} className="cursor-grab flex-shrink-0">
+            <GripVertical
+              size={20}
+              className="text-gray-400 hover:text-gray-600"
+            />
+          </div>
 
-        {/* Konten utama task */}
-        <div className="flex-1">
-          <p className="font-semibold text-xl text-gray-800 break-words mb-2">
-            {task.title}
-          </p>
-          <p className="text-sm text-gray-500">
-            {formatDateTime(task.startDateTime, task.endDateTime)}
-          </p>
-          {task.note && (
-            <p className="text-sm text-gray-700 mt-1 italic break-words">
-              {task.note}
+          <div className="flex-1">
+            <p className="font-semibold text-xl text-gray-800 break-words mb-1">
+              {task.title}
             </p>
-          )}
+            <p className="text-sm text-gray-500">
+              {formatDateTime(task.startDateTime, task.endDateTime)}
+            </p>
+            {task.note && (
+              <p className="text-sm text-gray-700 mt-1 italic break-words">
+                {task.note}
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Action buttons */}
