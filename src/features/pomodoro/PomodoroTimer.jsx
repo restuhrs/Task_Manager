@@ -246,7 +246,7 @@ export default function PomodoroTimer() {
         </div>
       </div>
 
-      {screenAwake && (
+      {wakeLockActive && (
         <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-semibold shadow">
           <Monitor size={14} /> Screen Awake
         </div>
