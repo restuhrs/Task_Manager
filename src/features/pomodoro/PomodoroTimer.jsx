@@ -3,6 +3,8 @@ import PomodoroControls from "./PomodoroControls";
 import { formatTime, getProgress } from "../../constants/timerUtils";
 import soundFile from "./sound_alert.mp3";
 import { toast } from "react-toastify";
+import NoSleep from "nosleep.js";
+import { Monitor } from "lucide-react";
 
 export default function PomodoroTimer() {
   const [focusTime, setFocusTime] = useState(25 * 60);
@@ -72,7 +74,6 @@ export default function PomodoroTimer() {
           });
         } else {
           // fallback pakai nosleep.js
-          const NoSleep = (await import("nosleep.js")).default;
           noSleepRef.current = new NoSleep();
           noSleepRef.current.enable();
           setWakeLockActive(true);
@@ -245,11 +246,10 @@ export default function PomodoroTimer() {
         </div>
       </div>
 
-      {/* Badge indikator wake lock */}
-      {wakeLockActive && (
-        <span className="mt-3 text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full shadow-sm">
-          🔒 Screen Awake
-        </span>
+      {screenAwake && (
+        <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-semibold shadow">
+          <Monitor size={14} /> Screen Awake
+        </div>
       )}
     </div>
   );
