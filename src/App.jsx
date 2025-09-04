@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import React, { lazy, Suspense } from "react";
-import { toast } from "react-toastify";
+import React from "react";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -45,10 +45,6 @@ function App() {
     setTasks(tasks.filter((task) => task.id !== id));
     toast.error("Task deleted!");
   };
-
-  const ToastContainer = lazy(() =>
-    import("react-toastify").then((m) => ({ default: m.ToastContainer }))
-  );
 
   return (
     <Router>
@@ -101,21 +97,19 @@ function App() {
         />
 
         {/* Toast */}
-        <Suspense fallback={null}>
-          <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            style={{ zIndex: 9999 }}
-            limit={3}
-          />
-        </Suspense>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          style={{ zIndex: 9999 }}
+          limit={3}
+        />
 
         {/* Footer Nav */}
         <FooterNav />
