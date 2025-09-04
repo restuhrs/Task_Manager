@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import { CirclePlus } from "lucide-react";
-import { ToastContainer, toast } from "react-toastify";
+import React, { lazy, Suspense } from "react";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Dashboard from "./pages/Dashboard";
 import TaskList from "./features/task/TaskList";
+import TaskListHeader from "./components/TaskListHeader";
 import AddTaskModal from "./features/task/AddTaskModal";
 import Pomodoro from "./pages/Pomodoro";
 import FooterNav from "./components/FooterNav";
@@ -45,37 +46,37 @@ function App() {
     toast.error("Task deleted!");
   };
 
+  const ToastContainer = lazy(() =>
+    import("react-toastify").then((m) => ({ default: m.ToastContainer }))
+  );
+
   return (
     <Router>
-      <div className="min-h-screen bg-gray-100 p-6 pb-20">
-        {/* Routes */}
+      <main className="min-h-screen bg-gray-100 p-6 pb-20">
         <Routes>
           {/* Home Route */}
           <Route
             path="/"
             element={
               <>
-                {/* Header */}
-                <header className="bg-blue-100 shadow-lg rounded-2xl p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                  <div>
-                    <h1 className="text-3xl font-bold text-blue-600">
-                      Task Manager
-                    </h1>
-                    <p className="text-blue-500 mt-1">
-                      Manage your tasks efficiently
-                    </p>
-                  </div>
-
-                  <button
-                    onClick={() => setShowModal(true)}
-                    className="flex items-center gap-2 px-5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white hover:scale-105 transform transition shadow-md"
-                  >
-                    <CirclePlus size={20} /> Add Task
-                  </button>
+                {/* Header utama */}
+                <header className="bg-blue-100 shadow-lg rounded-2xl p-6 mb-6">
+                  <h1 className="text-3xl font-bold text-blue-600">
+                    Task Manager
+                  </h1>
+                  <p className="text-gray-500 mt-1">
+                    Manage your tasks efficiently
+                  </p>
                 </header>
 
                 {/* Dashboard */}
                 <Dashboard tasks={tasks} />
+
+                {/* Task Header */}
+                <TaskListHeader
+                  tasks={tasks}
+                  onAdd={() => setShowModal(true)}
+                />
 
                 {/* Task List */}
                 <TaskList
@@ -100,18 +101,21 @@ function App() {
         />
 
         {/* Toast */}
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          style={{ zIndex: 9999 }}
-        />
+        <Suspense fallback={null}>
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            style={{ zIndex: 9999 }}
+            limit={3}
+          />
+        </Suspense>
 
         {/* Footer Nav */}
         <FooterNav />
@@ -120,7 +124,7 @@ function App() {
         <footer className="mt-6 py-4 text-center text-gray-500 text-sm border-t border-gray-300 relative">
           © {new Date().getFullYear()} by Restu. All rights reserved.
         </footer>
-      </div>
+      </main>
     </Router>
   );
 }

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import {
-  Edit,
   Trash2,
   Loader,
   CheckCircle2,
   PlayCircle,
   GripVertical,
+  PencilLine,
 } from "lucide-react";
 import EditTaskModal from "../features/task/EditTaskModal";
 
@@ -64,16 +64,24 @@ function TaskItem({ task, onUpdate, onDelete, dragHandleProps }) {
     <>
       <div className="bg-white p-4 rounded-2xl shadow-md flex flex-col sm:flex-row justify-between items-start sm:items-center hover:shadow-xl transition-shadow duration-300 gap-4">
         <div className="flex items-center gap-2 w-full sm:w-auto">
-          {/* Drag handle */}
-          <div {...dragHandleProps} className="cursor-grab flex-shrink-0">
+          {/* Drag handle (accessible) */}
+          <button
+            {...dragHandleProps}
+            type="button"
+            aria-label={`Drag task: ${task.title}`}
+            className="cursor-grab flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+          >
             <GripVertical
               size={20}
               className="text-gray-400 hover:text-gray-600"
             />
-          </div>
+          </button>
 
           <div className="flex-1">
-            <p className="font-semibold text-xl text-gray-800 break-words mb-1">
+            <p
+              className="font-semibold text-xl text-gray-800 break-words mb-1"
+              id={`task-title-${task.id}`}
+            >
               {task.title}
             </p>
             <p className="text-sm text-gray-500">
@@ -91,6 +99,7 @@ function TaskItem({ task, onUpdate, onDelete, dragHandleProps }) {
         <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3">
           <button
             onClick={toggleStatus}
+            aria-label={`Change status of ${task.title} (currently ${task.status})`}
             className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm ${
               statusStyle[task.status]
             } hover:scale-105 transform transition`}
@@ -100,16 +109,20 @@ function TaskItem({ task, onUpdate, onDelete, dragHandleProps }) {
 
           <button
             onClick={() => setOpenEdit(true)}
-            className="p-2 rounded-lg hover:bg-gray-100"
+            aria-label={`Edit task: ${task.title}`}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-lg hover:bg-gray-100 text-sm"
           >
-            <Edit size={18} className="text-blue-600" />
+            <PencilLine size={18} className="text-blue-600" />
+            Edit
           </button>
 
           <button
             onClick={() => onDelete(task.id)}
-            className="p-2 rounded-lg hover:bg-gray-100"
+            aria-label={`Delete task: ${task.title}`}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-lg hover:bg-gray-100 text-sm"
           >
             <Trash2 size={18} className="text-red-600" />
+            Delete
           </button>
         </div>
       </div>
