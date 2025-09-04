@@ -56,14 +56,46 @@ export default function PomodoroTimer() {
     );
   }, [sessionsCompleted, today]);
 
-  const showToast = (type, message) => {
-    localStorage.setItem(
-      "pomodoroToast",
-      JSON.stringify({ type, message, time: Date.now() })
-    );
-    if (type === "success") toast.success(message);
-    else if (type === "info") toast.info(message);
-  };
+  const [wakeLockActive, setWakeLockActive] = useState(false);
+  const wakeLockRef = useRef(null);
+  const noSleepRef = useRef(null);
+
+  useEffect(() => {
+    const enableWakeLock = async () => {
+      try {
+        if ("wakeLock" in navigator) {
+          wakeLockRef.current = await navigator.wakeLock.request("screen");
+          setWakeLockActive(true);
+
+          wakeLockRef.current.addEventListener("release", () => {
+            setWakeLockActive(false);
+          });
+        } else {
+          // fallback pakai nosleep.js
+          const NoSleep = (await import("nosleep.js")).default;
+          noSleepRef.current = new NoSleep();
+          noSleepRef.current.enable();
+          setWakeLockActive(true);
+        }
+      } catch (err) {
+        console.error("Wake Lock error:", err);
+      }
+    };
+
+    enableWakeLock();
+
+    return () => {
+      if (wakeLockRef.current) {
+        wakeLockRef.current.release();
+        wakeLockRef.current = null;
+      }
+      if (noSleepRef.current) {
+        noSleepRef.current.disable();
+        noSleepRef.current = null;
+      }
+      setWakeLockActive(false);
+    };
+  }, []);
 
   useEffect(() => {
     let timer;
@@ -88,7 +120,7 @@ export default function PomodoroTimer() {
         if (newCount % 4 === 0) {
           setSessionType("longBreak");
           setTimeLeft(longBreakTime);
-          toast.success("4 sessions done! Enjoy a long break 🌴");
+          toast.success("4 sessions done! Enjoy a long break 🫶");
         } else {
           setSessionType("break");
           setTimeLeft(breakTime);
@@ -212,6 +244,13 @@ export default function PomodoroTimer() {
           <span>Long Break</span>
         </div>
       </div>
+
+      {/* Badge indikator wake lock */}
+      {wakeLockActive && (
+        <span className="mt-3 text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full shadow-sm">
+          🔒 Screen Awake
+        </span>
+      )}
     </div>
   );
 }
