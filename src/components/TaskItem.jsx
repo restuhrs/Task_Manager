@@ -96,7 +96,7 @@ function TaskItem({ task, onUpdate, onDelete, dragHandleProps }) {
         </div>
 
         {/* Action buttons */}
-        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3">
+        <div className="flex items-center justify-between w-full sm:w-auto gap-1 sm:gap-2">
           <button
             onClick={toggleStatus}
             aria-label={`Change status of ${task.title} (currently ${task.status})`}
@@ -107,23 +107,25 @@ function TaskItem({ task, onUpdate, onDelete, dragHandleProps }) {
             <Icon size={16} /> {task.status}
           </button>
 
-          <button
-            onClick={() => setOpenEdit(true)}
-            aria-label={`Edit task: ${task.title}`}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-lg hover:bg-gray-100 text-sm"
-          >
-            <PencilLine size={18} className="text-blue-600" />
-            Edit
-          </button>
+          <div className="flex items-center gap-1 sm:gap-2 ml-auto">
+            <button
+              onClick={() => setOpenEdit(true)}
+              aria-label={`Edit task: ${task.title}`}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-lg hover:bg-gray-100 text-sm"
+            >
+              <PencilLine size={18} className="text-blue-600" />
+              Edit
+            </button>
 
-          <button
-            onClick={() => onDelete(task.id)}
-            aria-label={`Delete task: ${task.title}`}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-lg hover:bg-gray-100 text-sm"
-          >
-            <Trash2 size={18} className="text-red-600" />
-            Delete
-          </button>
+            <button
+              onClick={() => onDelete(task.id)}
+              aria-label={`Delete task: ${task.title}`}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-lg hover:bg-gray-100 text-sm"
+            >
+              <Trash2 size={18} className="text-red-600" />
+              Delete
+            </button>
+          </div>
         </div>
       </div>
 
